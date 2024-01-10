@@ -1,0 +1,17 @@
+.photos-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.photos-grid li {
+  cursor: pointer;
+}
+
+.photos-grid li img {
+  width: 100%;
+  height: auto;
+}
