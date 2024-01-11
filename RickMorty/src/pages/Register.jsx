@@ -1,4 +1,18 @@
 import React, { useState } from 'react';
+import { openDB } from 'idb'; 
+import { DBConfig } from '../DataBase/DBConfig';
+
+const openDatabase = () => {
+  return openDB(DBConfig.name, DBConfig.version, {
+    upgrade(db) {
+      const store = db.createObjectStore(DBConfig.objectStoresMeta[0].store, { keyPath: 'email' });
+
+      DBConfig.objectStoresMeta[0].storeSchema.forEach((index) => {
+        store.createIndex(index.name, index.keypath, index.options);
+      });
+    },
+  });
+};
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -15,21 +29,22 @@ const Register = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    saveUserData(formData);
-
-  };
-
-  const saveUserData = async (userData) => {
-    const db = new Dexie('UserDataDB');
-    db.version(1).stores({
-      users: '++id,username,email,password',
-    });
 
     try {
-      await db.users.add(userData);
-      console.log('Usuario registrado correctamente');
+      const db = await openDatabase();
+      const transaction = db.transaction(DBConfig.objectStoresMeta[0].store, 'readwrite');
+      const store = transaction.objectStore(DBConfig.objectStoresMeta[0].store);
+
+      const userData = {
+        name: formData.username,
+        email: formData.email,
+        password: formData.password,
+      };
+
+      await store.add(userData);
+      console.log('Usuario registrado con éxito');
     } catch (error) {
       console.error('Error al registrar el usuario', error);
     }
@@ -72,7 +87,7 @@ const Register = () => {
           />
         </label>
         <br />
-        <button type="submit">Regitrar</button>
+        <button type="submit">Registrar</button>
       </form>
     </div>
   );

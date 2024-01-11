@@ -10,8 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "idb": "^8.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-indexed-db-hook": "^1.0.14",
     "react-modal": "^3.16.1",
     "react-paginate": "^8.2.0",
     "react-router-dom": "^6.21.1"
