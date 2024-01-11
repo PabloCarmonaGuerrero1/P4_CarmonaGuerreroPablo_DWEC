@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { openDB } from 'idb'; 
 import { DBConfig } from '../DataBase/DBConfig';
+import "./Register.css"
 
 const openDatabase = () => {
   return openDB(DBConfig.name, DBConfig.version, {
@@ -45,17 +46,24 @@ const Register = () => {
 
       await store.add(userData);
       console.log('Usuario registrado con éxito');
+
+      setFormData({
+        username: '',
+        email: '',
+        password: '',
+      })
+
     } catch (error) {
       console.error('Error al registrar el usuario', error);
     }
   };
 
   return (
-    <div>
-      <h1>Registro</h1>
+    <div className="register-container">
       <form onSubmit={handleSubmit}>
+      <h1>Register</h1>
         <label>
-          Usuario:
+          Nickname
           <input
             type="text"
             name="username"
@@ -66,7 +74,7 @@ const Register = () => {
         </label>
         <br />
         <label>
-          Correo Electrónico:
+          Email
           <input
             type="email"
             name="email"
@@ -77,7 +85,7 @@ const Register = () => {
         </label>
         <br />
         <label>
-          Contraseña:
+          Password
           <input
             type="password"
             name="password"
@@ -87,7 +95,7 @@ const Register = () => {
           />
         </label>
         <br />
-        <button type="submit">Registrar</button>
+        <button type="submit">Register</button>
       </form>
     </div>
   );

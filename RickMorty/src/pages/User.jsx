@@ -65,7 +65,7 @@ const User = () => {
   }
 
   return (
-    <div>
+    <div className="user-container">
       <h1>Perfil de usuario</h1>
       {user && (
         <>

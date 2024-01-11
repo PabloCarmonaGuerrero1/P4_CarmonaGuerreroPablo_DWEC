@@ -1,54 +1,48 @@
-body {
-  font-family: 'Arial', sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-.header {
+.home-page-container .header {
   text-align: center;
   padding: 10px;
   background-color: #333;
   color: white;
 }
 
-.filter-form {
+.home-page-container .filter-form {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
 }
 
-.filter-form label {
+.home-page-container .filter-form label {
   margin-right: 10px;
 }
 
-.character-container {
+.home-page-container .character-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  min-width: 100vw; 
-  min-height: calc(2 * (400px + 20px)); 
+  min-width: 100vw;
+  min-height: calc(2 * (400px + 20px));
 }
 
-.character-container > div {
+.home-page-container .character-container > div {
   margin-bottom: 20px;
   margin-right: 20px;
   flex: 0 0 calc(33.3333% - 20px);
 }
 
-.footer {
+.home-page-container .footer {
   text-align: center;
   padding: 10px;
   background-color: #333;
   color: white;
 }
 
-.pagination-container {
+.home-page-container .pagination-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.pagination-container button {
+.home-page-container .pagination-container button {
   cursor: pointer;
   padding: 5px 10px;
   font-size: 14px;
@@ -58,13 +52,16 @@ body {
   border: none;
 }
 
-.pagination-container button:disabled {
+.home-page-container .pagination-container button:disabled {
   background-color: #888;
   cursor: not-allowed;
 }
 
-.pagination-container span {
+.home-page-container .pagination-container span {
   font-size: 14px;
   font-weight: bold;
 }
-
+.home-page-container .modal {
+  background-color: #000000; 
+  text-align: center;
+}

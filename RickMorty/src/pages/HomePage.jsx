@@ -83,7 +83,7 @@ const HomePage = () => {
   
   
     return (
-      <>
+      <div className="home-page-container">
         <div className="header">
           <h1>Home</h1>
         </div>
@@ -118,7 +118,7 @@ const HomePage = () => {
             <p>No se encontraron resultados para "{searchName}".</p>
           )}
         </div>
-        <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
+        <Modal className="modal" isOpen={modalIsOpen} onRequestClose={closeModal}>
           {selectedCharacter && (
             <>
               <h2>{selectedCharacter.name}</h2>
@@ -149,7 +149,7 @@ const HomePage = () => {
             </button>
           </div>
         </div>
-      </>
+      </div>
     );
   };
   

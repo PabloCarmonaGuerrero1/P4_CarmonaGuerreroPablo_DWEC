@@ -1,22 +1,18 @@
-.characters-container {
+.user-container .characters-container {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
 }
 
-.character-item {
+.user-container .character-item {
   width: 100px;
   text-align: center;
   margin-right: 5px;
 }
 
-.character-item img {
+.user-container .character-item img {
   width: 100%;
   height: 100%;
   border-radius: 4px;
   cursor: pointer;
 }
-
-
-
-
