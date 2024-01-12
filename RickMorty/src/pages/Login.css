@@ -1,4 +1,4 @@
-.register-container {
+.login-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -6,12 +6,12 @@
     width: 100%;   
     background-image: url("src/assets/rick-y-morty-en-el-espacio-6046.jpg");
     background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
-    margin: 0%;
- 
+    margin: 0;
   }
   
-  .register-container form {
+  .login-container form {
     background-color: #252121;
     padding: 2rem;
     border-radius: 0.5rem;
@@ -23,37 +23,35 @@
     align-items: center;
   }
   
-  .register-container label {
+  .login-container label {
     margin-bottom: 1rem;
     text-align: left;
   }
   
-  .register-container input,
-  .register-container button {
+  .login-container input,
+  .login-container button {
     width: 100%;
     padding: 0.5rem;
     font-size: 1rem;
     border-radius: 0.25rem;
+    border: 1px solid #ccc;
     box-sizing: border-box;
     margin-bottom: 1rem;
   }
   
-  .register-container button {
+  .login-container button {
     background-color: #007bff;
     color: #fff;
     cursor: pointer;
     border: none;
   }
   
-  .register-container button:hover {
+  .login-container button:hover {
     background-color: #0062cc;
   }
   
-  .register-container h1,
-  .register-container label {
+  .login-container h1,
+  .login-container label {
     text-align: center;
-    color: #1fbc279d;
-  }
-  body{
-    margin: 0%;
+    color: #fff;
   }
