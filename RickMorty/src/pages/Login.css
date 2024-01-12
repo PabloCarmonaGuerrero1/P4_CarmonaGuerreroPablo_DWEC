@@ -1,57 +1,57 @@
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; 
-    width: 100%;   
-    background-image: url("src/assets/rick-y-morty-en-el-espacio-6046.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    margin: 0;
-  }
-  
-  .login-container form {
-    background-color: #252121;
-    padding: 2rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 100%; 
-    max-width: 30rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .login-container label {
-    margin-bottom: 1rem;
-    text-align: left;
-  }
-  
-  .login-container input,
-  .login-container button {
-    width: 100%;
-    padding: 0.5rem;
-    font-size: 1rem;
-    border-radius: 0.25rem;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    margin-bottom: 1rem;
-  }
-  
-  .login-container button {
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-    border: none;
-  }
-  
-  .login-container button:hover {
-    background-color: #0062cc;
-  }
-  
-  .login-container h1,
-  .login-container label {
-    text-align: center;
-    color: #fff;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+  width: 100%;   
+  background-image: url("src/assets/rick-y-morty-en-el-espacio-6046.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0;
+}
+
+.login-container form {
+  background-color: #252121;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%; 
+  max-width: 30rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-container label {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.login-container input,
+.login-container button {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+}
+
+.login-container button {
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+}
+
+.login-container button:hover {
+  background-color: #0062cc;
+}
+
+.login-container h1,
+.login-container label {
+  text-align: center;
+  color: #fff;
+}

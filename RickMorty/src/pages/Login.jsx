@@ -3,6 +3,7 @@ import { openDB } from 'idb';
 import { DBConfig } from '../DataBase/DBConfig';
 import "./Login.css"
 
+
 const openDatabase = () => {
   return openDB(DBConfig.name, DBConfig.version, {
     upgrade(db) {
@@ -47,18 +48,17 @@ const LoginForm = () => {
       }
 
       console.log('Usuario autenticado:', result);
-
      
       setFormData({
         email: '',
         password: '',
       });
+      window.location.href = '/HomePage';
 
     } catch (error) {
       console.error('Error al autenticar el usuario', error);
     }
   };
-
   return (
     <div className='login-container'>
     <form onSubmit={handleSubmit}>
@@ -86,6 +86,7 @@ const LoginForm = () => {
       </label>
       <br />
       <button type="submit">Login</button>
+      <button onClick={() => window.location.href = '/Register'}>Register</button>
     </form>
     </div>
   );

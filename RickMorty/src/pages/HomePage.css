@@ -1,10 +1,19 @@
-.home-page-container .header {
+.home-page-container .header > h1 {
   text-align: center;
-  padding: 10px;
-  background-color: #333;
   color: white;
 }
+.home-page-container .header > img {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
 
+.home-page-container .header{
+  padding: 10px;
+  background-color: #333;
+}
 .home-page-container .filter-form {
   display: flex;
   justify-content: center;
@@ -61,7 +70,13 @@
   font-size: 14px;
   font-weight: bold;
 }
-.home-page-container .modal {
-  background-color: #ea0000; 
+.ReactModal__Content.ReactModal__Content--after-open.modal {
+  background-color: grey;
   text-align: center;
+  width: 400px;
+  height: 600px;
+  position: fixed;
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
 }

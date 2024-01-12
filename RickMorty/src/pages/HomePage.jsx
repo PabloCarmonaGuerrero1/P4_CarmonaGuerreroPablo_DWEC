@@ -86,6 +86,7 @@ const HomePage = () => {
       <div className="home-page-container">
         <div className="header">
           <h1>Home</h1>
+          <img src="src/assets/user.png"></img>
         </div>
         <form className="filter-form">
           <label>
@@ -130,7 +131,8 @@ const HomePage = () => {
               <p>Location: {selectedCharacter.location.name}</p>
             </>
           )}
-          <button onClick={closeModal}>Cerrar</button>
+          <button>Fav</button>
+          <button onClick={closeModal}>Close</button>
         </Modal>
         <div className="footer">
           <div className="pagination-container">

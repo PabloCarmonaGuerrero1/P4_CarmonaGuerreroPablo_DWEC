@@ -95,7 +95,7 @@ const Register = () => {
           />
         </label>
         <br />
-        <button type="submit">Register</button>
+        <button type="submit" onClick={() => window.location.href = '/'} >Register</button>
       </form>
     </div>
   );
