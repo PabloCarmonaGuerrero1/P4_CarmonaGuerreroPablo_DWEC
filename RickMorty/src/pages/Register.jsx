@@ -20,6 +20,7 @@ const Register = () => {
     username: '',
     email: '',
     password: '',
+    favourite: [],
   });
 
   const handleChange = (e) => {
@@ -42,6 +43,7 @@ const Register = () => {
         name: formData.username,
         email: formData.email,
         password: formData.password,
+        favourite : formData.favourite || [],
       };
 
       await store.add(userData);
@@ -51,8 +53,9 @@ const Register = () => {
         username: '',
         email: '',
         password: '',
+        favourite: [],
       })
-
+      window.location.href ="/"
     } catch (error) {
       console.error('Error al registrar el usuario', error);
     }
@@ -95,7 +98,7 @@ const Register = () => {
           />
         </label>
         <br />
-        <button type="submit" onClick={() => window.location.href = '/'} >Register</button>
+        <button type="submit">Register</button>
       </form>
     </div>
   );
