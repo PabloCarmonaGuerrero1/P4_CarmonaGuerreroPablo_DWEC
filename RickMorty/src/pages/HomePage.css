@@ -2,7 +2,7 @@
   text-align: center;
   color: white;
 }
-.home-page-container .header > img {
+.home-page-container .header > a > img {
   width: 100px;
   height: 100px;
   position: absolute;

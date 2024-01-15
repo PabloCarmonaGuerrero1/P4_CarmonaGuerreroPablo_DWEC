@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import { useUser } from "./UserContext";
 import { openDB } from 'idb';
 import { DBConfig } from "../DataBase/DBConfig";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -108,7 +109,7 @@ const HomePage = () => {
       <div className="home-page-container">
         <div className="header">
           <h1>Home</h1>
-          <img src="src/assets/user.png"></img>
+          <Link to={"/user"}><img src="src/assets/user.png"></img></Link>
         </div>
         <form className="filter-form">
           <label>

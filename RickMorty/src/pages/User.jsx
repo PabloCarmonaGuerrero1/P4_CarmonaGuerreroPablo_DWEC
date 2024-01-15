@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import './User.css';
-
+import { useUser } from './UserContext';
 const User = () => {
-  const [user, setUser] = useState(null);
+  const {user} = useUser();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [characters, setCharacters] = useState([]);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
@@ -18,6 +18,7 @@ const User = () => {
       .then(response => response.json())
       .then(data => {
         setCharacterData(data.results);
+        setCharacters(data.results);
         setMaxId(data.info.pages);
       })
       .catch(error => {
@@ -26,17 +27,18 @@ const User = () => {
   };
 
   useEffect(() => {
-    fetch('https://rickandmortyapi.com/api/character/1')
-      .then(response => response.json())
-      .then(data => setUser(data));
-
-    fetch('https://rickandmortyapi.com/api/character')
-      .then(response => response.json())
-      .then(data => setCharacters(data.results));
-  }, []);
+    if (user) {
+      // Si hay un usuario en el contexto, obtén el personaje según el ID de perfil
+      fetch(`https://rickandmortyapi.com/api/character/${user.profile}`)
+        .then(response => response.json())
+        .then(data => setSelectedCharacter(data))
+        .catch(error => {
+          console.error("Error al llamar a la API:", error);
+        });
+    }
+  }, [user]);
 
   const openModal = () => setModalIsOpen(true);
-
   const closeModal = () => {
     setModalIsOpen(false);
     setCurrentPage(1);
@@ -68,15 +70,15 @@ const User = () => {
     <div className="user-container">
       <h1>Perfil de usuario</h1>
       {user && (
-        <>
-          <img
-            src={selectedCharacter ? selectedCharacter.image : user.image}
-            alt={selectedCharacter ? selectedCharacter.name : user.name}
-            onClick={openModal}
-          />
-          <p>{user.name}</p>
-        </>
-      )}
+      <>
+        <img
+          src={`https://rickandmortyapi.com/api/character/avatar/${user.profile}.jpeg`}  
+          alt={user.profileName || user.name}    
+          onClick={() => handleCharacterClick(user)}
+        />
+        <p>{user.name}</p>
+      </>
+    )}
       <Modal isOpen={modalIsOpen} onRequestClose={closeModal}>  
         <h2>Selecciona un personaje</h2>
         <div>

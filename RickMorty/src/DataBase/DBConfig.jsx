@@ -9,6 +9,7 @@ export const DBConfig = {
           { name: "email", keypath: "email", options: { unique: true } },
           { name: "password", keypath: "password", options: { unique: false } },
           { name: "favourite", keypath: "favourite", options: { unique: false } },
+          { name: "profile", keypath: "profile", options: { unique: false } },
         ],
       },
     ],

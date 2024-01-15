@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { openDB } from 'idb'; 
 import { DBConfig } from '../DataBase/DBConfig';
 import "./Register.css"
-
+import { useNavigate } from 'react-router-dom';
 const openDatabase = () => {
   return openDB(DBConfig.name, DBConfig.version, {
     upgrade(db) {
@@ -21,7 +21,10 @@ const Register = () => {
     email: '',
     password: '',
     favourite: [],
+    profile: 1,
   });
+
+  const navigate = useNavigate(); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,6 +47,7 @@ const Register = () => {
         email: formData.email,
         password: formData.password,
         favourite : formData.favourite || [],
+        profile : formData.profile || 1,
       };
 
       await store.add(userData);
@@ -54,8 +58,9 @@ const Register = () => {
         email: '',
         password: '',
         favourite: [],
+        profile: 1,
       })
-      window.location.href ="/"
+      navigate('/')
     } catch (error) {
       console.error('Error al registrar el usuario', error);
     }
