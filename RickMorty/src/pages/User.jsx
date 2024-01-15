@@ -2,58 +2,69 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import './User.css';
 import { useUser } from './UserContext';
-import { openDB } from 'idb'; // Importa openDB de la librería idb
+import { openDB } from 'idb';
 
 const User = () => {
-  const { user } = useUser();
+  const { user, loginUser } = useUser();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [characterData, setCharacterData] = useState([]);
   const [db, setDb] = useState(null);
-  const dbName = 'MyDB';
+  const [currentPage, setCurrentPage] = useState(1);
+  const [maxID, setMaxID] = useState(1); 
 
   useEffect(() => {
     const fetchCharacters = async (page) => {
       try {
         const response = await fetch(`https://rickandmortyapi.com/api/character?page=${page}`);
         const data = await response.json();
+
         setCharacterData(data.results);
+        setMaxID(data.info.pages); 
+
       } catch (error) {
         console.error("Error al llamar a la API:", error);
       }
     };
 
-    fetchCharacters(1);
+    fetchCharacters(currentPage);
 
     const initializeDB = async () => {
-      const db = await openDB(dbName, 1, {
-        upgrade(db) {
-          const store = db.createObjectStore('Users', {
-            keyPath: 'email',
-          });
-          store.createIndex('profileIndex', 'profile');
-        },
-      });
-
+      const db = await openDB(DBConfig.name, DBConfig.version);
       setDb(db);
     };
 
     initializeDB();
-  }, []);
+  }, [currentPage]);
 
   const handleCharacterClick = async (character) => {
     setModalIsOpen(true);
 
-    if (db) {
-      const transaction = db.transaction('Users', 'readwrite');
-      const store = transaction.objectStore('Users');
+    try {
 
-      const existingUser = await store.get(user.email);
+      const updatedUser = { ...user, profile: character.id };
+      loginUser(updatedUser);
 
-      if (existingUser) {
-        existingUser.profile = character.id;
-        store.put(existingUser);
+
+      localStorage.setItem(user.email, JSON.stringify(updatedUser));
+
+      if (db) {
+        const transaction = db.transaction(DBConfig.objectStoresMeta[0].store, 'readwrite');
+        const store = transaction.objectStore(DBConfig.objectStoresMeta[0].store);
+
+        const existingUser = await store.get(user.email);
+
+        if (existingUser) {
+          existingUser.profile = character.id;
+          store.put(existingUser);
+        }
       }
+    } catch (error) {
+      console.error('Error al actualizar el perfil del usuario en la base de datos', error);
     }
+  };
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
   };
 
   return (
@@ -64,7 +75,7 @@ const User = () => {
           <img
             src={`https://rickandmortyapi.com/api/character/avatar/${user.profile}.jpeg`}
             alt={user.profileName || user.name}
-            onClick={() => handleCharacterClick(user)}
+            onClick={() => setModalIsOpen(true)}
           />
           <p>{user.name}</p>
         </>
@@ -79,6 +90,15 @@ const User = () => {
           ))}
         </div>
         <button onClick={() => setModalIsOpen(false)}>Cerrar</button>
+        <div className="pagination-container">
+          <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+            Anterior
+          </button>
+          <span>Página {currentPage}</span>
+          <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === maxID}>
+            Siguiente
+          </button>
+        </div>
       </Modal>
     </div>
   );

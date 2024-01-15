@@ -1,19 +1,6 @@
 import React, { useState } from 'react';
-import { openDB } from 'idb'; 
-import { DBConfig } from '../DataBase/DBConfig';
 import "./Register.css"
 import { useNavigate } from 'react-router-dom';
-const openDatabase = () => {
-  return openDB(DBConfig.name, DBConfig.version, {
-    upgrade(db) {
-      const store = db.createObjectStore(DBConfig.objectStoresMeta[0].store, { keyPath: 'email' });
-
-      DBConfig.objectStoresMeta[0].storeSchema.forEach((index) => {
-        store.createIndex(index.name, index.keypath, index.options);
-      });
-    },
-  });
-};
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -24,33 +11,20 @@ const Register = () => {
     profile: 1,
   });
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = () => {
     try {
-      const db = await openDatabase();
-      const transaction = db.transaction(DBConfig.objectStoresMeta[0].store, 'readwrite');
-      const store = transaction.objectStore(DBConfig.objectStoresMeta[0].store);
-
       const userData = {
         name: formData.username,
         email: formData.email,
         password: formData.password,
-        favourite : formData.favourite || [],
-        profile : formData.profile || 1,
+        favourite: formData.favourite || [],
+        profile: formData.profile || 1,
       };
 
-      await store.add(userData);
+      localStorage.setItem(formData.email, JSON.stringify(userData));
+
       console.log('Usuario registrado con éxito');
 
       setFormData({
@@ -65,7 +39,13 @@ const Register = () => {
       console.error('Error al registrar el usuario', error);
     }
   };
-
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
   return (
     <div className="register-container">
       <form onSubmit={handleSubmit}>
