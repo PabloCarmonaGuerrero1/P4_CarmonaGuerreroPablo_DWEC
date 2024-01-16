@@ -29,9 +29,7 @@ const User = () => {
   
     fetchCharacters(currentPage);
   
-    // Verifica si user existe y tiene la propiedad 'favourite' antes de usarla
     if (user && user.favourite) {
-      // Actualiza el estado de los personajes favoritos cuando el usuario cambia
       setFavoriteCharacters(new Map(Object.entries(user.favourite)));
     }
   }, [currentPage, user]);
@@ -110,7 +108,7 @@ const User = () => {
       </div>
 
       <div className='favorite-characters'>
-        <h2>Personajes Favoritos</h2>
+        <h2>Fav Characters</h2>
         <div>
           {Array.from(favoriteCharacters.values()).map((characterId) => (
             <div key={characterId} style={{ marginBottom: 20, marginRight: 20, float: 'left' }}>

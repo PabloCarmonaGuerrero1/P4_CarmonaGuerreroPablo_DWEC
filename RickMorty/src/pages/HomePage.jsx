@@ -16,6 +16,7 @@ const HomePage = () => {
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [userFavorites, setUserFavorites] = useState(user ? user.favourite || [] : []);
   const [db, setDb] = useState(null);
+  const [resetPage, setResetPage] = useState(false);
 
   const fetchCharacters = (page, status, name) => {
     let url = `https://rickandmortyapi.com/api/character?page=${page}`;
@@ -52,6 +53,10 @@ const HomePage = () => {
   };
 
   useEffect(() => {
+    if (resetPage) {
+      setCurrentPage(1);
+      setResetPage(false);
+    }
     fetchCharacters(currentPage, selectedStatus, searchName);
   }, [currentPage, selectedStatus, searchName]);
 
@@ -61,10 +66,12 @@ const HomePage = () => {
 
   const handleStatusChange = (e) => {
     setSelectedStatus(e.target.value);
+    setResetPage(true);
   };
 
   const handleSearchChange = (e) => {
     setSearchName(e.target.value);
+    setResetPage(true);
   };
 
   const openModal = (character) => {
@@ -113,10 +120,6 @@ const HomePage = () => {
     }
   };
   
-
-  
-  
-
   return (
     <div className="home-page-container">
       <div className="header">
@@ -147,11 +150,10 @@ const HomePage = () => {
           characterData.map((character) => (
             <div key={character.id} className="character-card" onClick={() => openModal(character)}>
               <img src={character.image} alt="Imagen del personaje" />
-              <p>{character.name}</p>
             </div>
           ))
         ) : (
-          <p>No se encontraron resultados para "{searchName}".</p>
+          <p className="noresult">No se encontraron resultados para "{searchName}".</p>
         )}
       </div>
       <Modal className="modal" isOpen={modalIsOpen} onRequestClose={closeModal}>

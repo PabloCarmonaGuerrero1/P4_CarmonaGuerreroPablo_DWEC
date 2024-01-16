@@ -1,6 +1,8 @@
 .user-container {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
 }
 
 .user-container .characters-container {
@@ -11,7 +13,6 @@
 .user-container .user_profile{
   display: flex;
   align-items: center;
-  background-color: aqua;
 }
 .user-container .user_profile .profile {
   width: 200px;
@@ -25,8 +26,10 @@
 
 .user-container .user_profile .name_profile {
   margin-left: 50px; 
-  font-size: 30px;
+  font-size: 50px;
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-style: italic;
+  color:yellow;
 }
 
 .user-container .header{
@@ -34,15 +37,26 @@
   font-size: 20px;
   align-content: center;
 }
+.user-container {
+  background-image: url("../assets/rick-y-morty-en-el-espacio-6046.jpg");
+  background-size: cover; 
+  background-position: center ;
+  background-repeat: no-repeat;
+}
+
 
 .user-container .favorite-characters > div {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: space-around;
-
 }
-
+.user-container .favorite-characters h2{
+  font-size: 40px;
+  color: azure;
+  text-align: center;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
 .user-container .favorite-characters img {
   width: calc(20vw - 20px);
   height: auto;
