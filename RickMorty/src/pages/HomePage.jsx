@@ -18,7 +18,6 @@ const HomePage = () => {
   const [resetPage, setResetPage] = useState(false);
   const [selectedGender, setSelectedGender] = useState("all");
   
-  // New states for species filtering
   const [speciesList, setSpeciesList] = useState([]);
   const [selectedSpecies, setSelectedSpecies] = useState("all");
 
@@ -31,7 +30,6 @@ const HomePage = () => {
   }, [currentPage, selectedStatus, searchName, selectedGender, selectedSpecies]);
 
   useEffect(() => {
-    // Fetch the list of unique species
     fetch("https://rickandmortyapi.com/api/character")
       .then((response) => response.json())
       .then((data) => {
