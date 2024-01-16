@@ -27,7 +27,6 @@
 .home-page-container .character-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
   min-width: 100vw;
   min-height: calc(2 * (400px + 20px));
 }
@@ -35,9 +34,11 @@
 .home-page-container .character-container > div {
   margin-bottom: 20px;
   margin-right: 20px;
-  flex: 0 0 calc(33.3333% - 20px);
+  justify-content: space-around;
 }
-
+.home-page-container .character-container img{
+  width: calc(20vw - 20px);
+}
 .home-page-container .footer {
   text-align: center;
   padding: 10px;

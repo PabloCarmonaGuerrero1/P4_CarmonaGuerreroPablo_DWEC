@@ -1,0 +1,52 @@
+.user-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-container .characters-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.user-container .user_profile{
+  display: flex;
+  align-items: center;
+  background-color: aqua;
+}
+.user-container .user_profile .profile {
+  width: 200px;
+  height: 200px;
+  border-radius: 30px;
+  cursor: pointer;
+  margin-left: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.user-container .user_profile .name_profile {
+  margin-left: 50px; 
+  font-size: 30px;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.user-container .header{
+  background-color:slategray;
+  font-size: 20px;
+  align-content: center;
+}
+
+.user-container .favorite-characters > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-around;
+
+}
+
+.user-container .favorite-characters img {
+  width: calc(20vw - 20px);
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+

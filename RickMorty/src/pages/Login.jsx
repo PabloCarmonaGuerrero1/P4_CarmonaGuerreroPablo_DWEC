@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import './Login.css';
-import { useUser } from './UserContext.jsx';
+import '../pages_css/Login.css';
+import { useUser } from '../context/UserContext.jsx';
 import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {

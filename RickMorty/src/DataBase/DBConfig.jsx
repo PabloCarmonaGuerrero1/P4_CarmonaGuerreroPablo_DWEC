@@ -7,7 +7,7 @@ export const DBConfig = {
       storeSchema: [
         { name: "name", keypath: "name" },
         { name: "email", keypath: "email", options: { unique: true } },
-        { name: "password", keypath: "password" },
+        { name: "password", keypath: "email" },
         { name: "favourite", keypath: "favourite" },
         { name: "profile", keypath: "profile" },
       ],

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import "./HomePage.css";
+import '../pages_css/HomePage.css';
 import Modal from 'react-modal';
-import { useUser } from "./UserContext";
+import { useUser } from "../context/UserContext";
 import { DBConfig } from "../DataBase/DBConfig";
 import { Link } from "react-router-dom";
 
