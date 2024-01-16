@@ -1,0 +1,21 @@
+.notfound-page{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    background-image: url("../assets/rick-morty.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.notfound-page h1{
+    font-size: 400px;
+    text-align: center;
+    margin-bottom: 0;
+}
+.notfound-page p{
+    text-align: center;
+    font-size: 200px;
+    margin-top: 0;
+}

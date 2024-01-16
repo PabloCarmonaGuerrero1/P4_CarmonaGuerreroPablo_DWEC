@@ -1,22 +1,59 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import HomePage from '../pages/HomePage'
-import Login from '../pages/Login'
-import Register from '../pages/Register'
-import User from '../pages/User'
-import NotFound from '../pages/NotFound'
+import HomePage from '../pages/HomePage';
+import LayoutRoot from '../components/LayoutPublic';
+import LayoutPrivate from '../components/LayoutPrivate';
+import Login from '../pages/Login';
+import Register from '../pages/Register';
+import User from '../pages/User';
+import NotFound from '../pages/NotFound';
+import { createBrowserRouter } from 'react-router-dom';
+import ContactPage from '../pages/ContactPage';
 
-const App = () => {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" exact element={<Login />} />
-        <Route path="/homepage" element={<HomePage />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/user" element={<User />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
-  )
-}
+const App = createBrowserRouter([
+  {
+    path: "/",
+    element: <LayoutRoot />,
+    errorElement: <NotFound />,
+    children: [
+      {
+        index: true,
+        element: <Login />,
+      },
+      {
+        path: "/Register",
+        element: <Register />,
+      },
+      {
+        path: "/HomePage",
+        element: <LayoutPrivate />,
+        children: [
+          {
+            index: true,
+            element: <HomePage />,
+          },
+        ],
+      },
+      {
+        path: "/User",
+        element: <LayoutPrivate />,
+        children: [
+          {
+            index: true,
+            element: <User />,
+          },
+        ],
+      },
+      {
+        path: "/ContactPage",
+        element: <LayoutPrivate />,
+        children: [
+          {
+            index: true,
+            element: <ContactPage />,
+          },
+        ],
+      },
+    ],
+  },
+]);
 
-export default App
+export default App;

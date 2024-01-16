@@ -1,0 +1,49 @@
+.form-contact-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-image: url("../assets/rick-y-morty-en-el-espacio-6046.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .form-contact-page .my-form {
+    width: 300px; 
+    padding: 20px;
+    background-color: grey;
+    border: 1px solid #d61313;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center; 
+    color: #fff;
+  }
+  
+  .form-contact-page label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .form-contact-page input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+  
+  .form-contact-page button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .form-contact-page button:hover {
+    background-color: #45a049;
+  }
+  

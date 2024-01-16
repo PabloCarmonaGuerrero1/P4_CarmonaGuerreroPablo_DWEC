@@ -12,29 +12,32 @@ const LoginForm = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault(); 
+  
     try {
       const userData = JSON.parse(localStorage.getItem(formData.email));
-
+  
       if (!userData || userData.password !== formData.password) {
         console.error('Credenciales inválidas');
         return;
       }
-
+  
       console.log('Usuario autenticado:', userData);
-
+  
       loginUser(userData);
-
+  
       setFormData({
         email: '',
         password: '',
       });
-
-      navigate('/homepage');
+  
+      navigate('/HomePage');
     } catch (error) {
       console.error('Error al autenticar el usuario', error);
     }
   };
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;

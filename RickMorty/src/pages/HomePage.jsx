@@ -3,7 +3,6 @@ import '../pages_css/HomePage.css';
 import Modal from 'react-modal';
 import { useUser } from "../context/UserContext";
 import { DBConfig } from "../DataBase/DBConfig";
-import { Link } from "react-router-dom";
 
 const HomePage = () => {
   const { user, loginUser } = useUser();
@@ -17,16 +16,47 @@ const HomePage = () => {
   const [userFavorites, setUserFavorites] = useState(user ? user.favourite || [] : []);
   const [db, setDb] = useState(null);
   const [resetPage, setResetPage] = useState(false);
+  const [selectedGender, setSelectedGender] = useState("all");
+  
+  // New states for species filtering
+  const [speciesList, setSpeciesList] = useState([]);
+  const [selectedSpecies, setSelectedSpecies] = useState("all");
 
-  const fetchCharacters = (page, status, name) => {
+  useEffect(() => {
+    if (resetPage) {
+      setCurrentPage(1);
+      setResetPage(false);
+    }
+    fetchCharacters(currentPage, selectedStatus, searchName, selectedGender, selectedSpecies);
+  }, [currentPage, selectedStatus, searchName, selectedGender, selectedSpecies]);
+
+  useEffect(() => {
+    // Fetch the list of unique species
+    fetch("https://rickandmortyapi.com/api/character")
+      .then((response) => response.json())
+      .then((data) => {
+        const uniqueSpecies = [...new Set(data.results.map((character) => character.species))];
+        setSpeciesList(uniqueSpecies);
+      })
+      .catch((error) => {
+        console.error("Error fetching species list:", error);
+      });
+  }, []);
+
+  const fetchCharacters = (page, status, name, gender, species) => {
     let url = `https://rickandmortyapi.com/api/character?page=${page}`;
 
     if (status !== "all") {
       url += `&status=${status}`;
     }
-
+    if (gender !== "all") {
+      url += `&gender=${gender}`;
+    }
     if (name.trim() !== "") {
       url += `&name=${name}`;
+    }
+    if (species !== "all") {
+      url += `&species=${species}`;
     }
 
     fetch(url)
@@ -52,14 +82,6 @@ const HomePage = () => {
       });
   };
 
-  useEffect(() => {
-    if (resetPage) {
-      setCurrentPage(1);
-      setResetPage(false);
-    }
-    fetchCharacters(currentPage, selectedStatus, searchName);
-  }, [currentPage, selectedStatus, searchName]);
-
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
@@ -71,6 +93,16 @@ const HomePage = () => {
 
   const handleSearchChange = (e) => {
     setSearchName(e.target.value);
+    setResetPage(true);
+  };
+
+  const handleGenderChange = (e) => {
+    setSelectedGender(e.target.value);
+    setResetPage(true);
+  };
+
+  const handleSpeciesChange = (e) => {
+    setSelectedSpecies(e.target.value);
     setResetPage(true);
   };
 
@@ -86,13 +118,13 @@ const HomePage = () => {
 
   const handleFavoriteClick = async (character) => {
     const isFavorite = userFavorites.includes(character.id);
-  
+
     try {
       setUserFavorites((prevFavorites) => {
         const updatedFavorites = isFavorite
           ? prevFavorites.filter((id) => id !== character.id)
           : [...prevFavorites, character.id];
-  
+
         const updatedUser = { ...user, favourite: updatedFavorites };
         loginUser(updatedUser);
         localStorage.setItem(user.email, JSON.stringify(updatedUser));
@@ -101,32 +133,38 @@ const HomePage = () => {
           const updateDatabase = async () => {
             const transaction = db.transaction(DBConfig.objectStoresMeta[0].store, 'readwrite');
             const store = transaction.objectStore(DBConfig.objectStoresMeta[0].store);
-  
+
             const existingUser = await store.get(user.email);
-  
+
             if (existingUser) {
               existingUser.favourite = updatedFavorites;
               store.put(existingUser);
             }
           };
-  
+
           updateDatabase();
         }
-  
+
         return updatedFavorites;
       });
     } catch (error) {
       console.error('Error al actualizar la lista de favoritos en la base de datos', error);
     }
   };
-  
+
   return (
     <div className="home-page-container">
-      <div className="header">
-        <h1>Home</h1>
-        <Link to={"/user"}><img src="src/assets/user.png" alt="User" /></Link>
-      </div>
       <form className="filter-form">
+        <label>
+          Gender:
+          <select value={selectedGender} onChange={handleGenderChange}>
+            <option value="all">All</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="genderless">Genderless</option>
+            <option value="unknown">Unknown</option>
+          </select>
+        </label>
         <label>
           Status:
           <select value={selectedStatus} onChange={handleStatusChange}>
@@ -144,30 +182,41 @@ const HomePage = () => {
             onChange={handleSearchChange}
           />
         </label>
+        <label>
+          Species:
+          <select value={selectedSpecies} onChange={handleSpeciesChange}>
+            <option value="all">All</option>
+            {speciesList.map((species) => (
+              <option key={species} value={species}>
+                {species}
+              </option>
+            ))}
+          </select>
+        </label>
       </form>
       <div className="character-container">
         {characterData.length > 0 ? (
           characterData.map((character) => (
             <div key={character.id} className="character-card" onClick={() => openModal(character)}>
-              <img src={character.image} alt="Imagen del personaje" />
+              <img src={character.image} alt="Character Image" />
             </div>
           ))
         ) : (
-          <p className="noresult">No se encontraron resultados para "{searchName}".</p>
+          <p className="noresult">No results found for "{searchName}".</p>
         )}
       </div>
       <Modal className="modal" isOpen={modalIsOpen} onRequestClose={closeModal}>
-      {selectedCharacter && (
+        {selectedCharacter && (
           <>
             <h2>{selectedCharacter.name}</h2>
-            <img src={selectedCharacter.image} alt="Imagen del personaje" />
+            <img src={selectedCharacter.image} alt="Character Image" />
             <p>Status: {selectedCharacter.status}</p>
             <p>Species: {selectedCharacter.species}</p>
             <p>Gender: {selectedCharacter.gender}</p>
             <p>Origin: {selectedCharacter.origin.name}</p>
             <p>Location: {selectedCharacter.location.name}</p>
             <button onClick={() => handleFavoriteClick(selectedCharacter)}>
-              {userFavorites.includes(selectedCharacter.id) ? 'Quitar de Favoritos' : 'Agregar a Favoritos'}
+              {userFavorites.includes(selectedCharacter.id) ? 'UNFAV' : 'FAV'}
             </button>
             <button onClick={closeModal}>Close</button>
           </>
@@ -179,14 +228,14 @@ const HomePage = () => {
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
           >
-            Anterior
+            Previous
           </button>
-          <span>Página {currentPage} de {maxId}</span>
+          <span>Page {currentPage} of {maxId}</span>
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === maxId}
           >
-            Siguiente
+            Next
           </button>
         </div>
       </div>

@@ -71,9 +71,6 @@ const User = () => {
 
   return (
     <div className="user-container">
-      <div className='header'>
-        <Link to={"/HomePage"}><h4>HomePage</h4></Link>
-      </div>
       <div className='user_profile'>
         {user && (
           <>
@@ -86,24 +83,27 @@ const User = () => {
           </>
         )}
         <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
+          <div>
           <h2>Select a image</h2>
           <div>
             {characterData.map((character) => (
-              <div key={character.id} style={{ marginBottom: 20, marginRight: 20, float: 'left' }}>
+              <div key={character.id} >
                 <img src={character.image} alt="Imagen del personaje" onClick={() => handleCharacterClick(character)} />
               </div>
             ))}
           </div>
-          <button onClick={() => setModalIsOpen(false)}>Cerrar</button>
+          <button onClick={() => setModalIsOpen(false)} className="close">Close</button>
           <div className="pagination-container">
             <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
-              Anterior
+              Previous
             </button>
-            <span>Página {currentPage}</span>
+            <span>Page {currentPage}</span>
             <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === maxID}>
-              Siguiente
+              Next
             </button>
           </div>
+          </div>
+
         </Modal>
       </div>
 
@@ -111,7 +111,7 @@ const User = () => {
         <h2>Fav Characters</h2>
         <div>
           {Array.from(favoriteCharacters.values()).map((characterId) => (
-            <div key={characterId} style={{ marginBottom: 20, marginRight: 20, float: 'left' }}>
+            <div key={characterId}>
               <img src={`https://rickandmortyapi.com/api/character/avatar/${characterId}.jpeg`} alt="Favourite" />
             </div>
           ))}

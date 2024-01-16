@@ -1,30 +1,18 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+// UserContext.jsx
+import React, { createContext, useContext, useState } from 'react';
 
 const UserContext = createContext();
 
-export const UserProvider = ({ children }) => {
+const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   const loginUser = (userData) => {
     setUser(userData);
-
-    if (userData) {
-      localStorage.setItem('user', JSON.stringify(userData));
-    }
   };
 
   const logoutUser = () => {
     setUser(null);
-
-    localStorage.removeItem('user');
   };
-
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem('user'));
-    if (storedUser) {
-      loginUser(storedUser);
-    }
-  }, []);
 
   return (
     <UserContext.Provider value={{ user, loginUser, logoutUser }}>
@@ -33,6 +21,12 @@ export const UserProvider = ({ children }) => {
   );
 };
 
-export const useUser = () => {
-  return useContext(UserContext);
+const useUser = () => {
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error('useUser debe estar dentro de un proveedor UserProvider');
+  }
+  return context;
 };
+
+export { UserProvider, useUser,UserContext };

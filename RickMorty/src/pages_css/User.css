@@ -50,6 +50,7 @@
   flex-wrap: wrap;
   gap: 20px;
   justify-content: space-around;
+
 }
 .user-container .favorite-characters h2{
   font-size: 40px;
@@ -62,5 +63,38 @@
   height: auto;
   border-radius: 10px;
   margin-bottom: 20px;
+}
+.ReactModal__Content {
+  background-color: grey;
+}
+.ReactModal__Content div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  background-color: grey;
+
+  padding: 20px;
+}
+
+.ReactModal__Content div img {
+  width: 100px; 
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.ReactModal__Content h2 {
+  text-align: center;
+}
+
+.ReactModal__Content button {
+  margin-top: 20px; 
+
+}
+
+.ReactModal__Content .pagination-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px; 
 }
 
