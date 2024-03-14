@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import '../pages_css/HomePage.css';
 import Modal from 'react-modal';
+import { toast, ToastContainer } from 'react-toastify';
 import { useUser } from "../context/UserContext";
 import { DBConfig } from "../DataBase/DBConfig";
 
@@ -14,11 +15,10 @@ const HomePage = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [userFavorites, setUserFavorites] = useState(user ? user.favourite || [] : []);
-  const [db, setDb] = useState(null);
+  const [db] = useState(null);
   const [resetPage, setResetPage] = useState(false);
   const [selectedGender, setSelectedGender] = useState("all");
-  
-  const [speciesList, setSpeciesList] = useState([]);
+  const [speciesList] = useState([]);
   const [selectedSpecies, setSelectedSpecies] = useState("all");
 
   useEffect(() => {
@@ -27,20 +27,7 @@ const HomePage = () => {
       setResetPage(false);
     }
     fetchCharacters(currentPage, selectedStatus, searchName, selectedGender, selectedSpecies);
-  }, [currentPage, selectedStatus, searchName, selectedGender, selectedSpecies]);
-
-  useEffect(() => {
-    fetch("https://rickandmortyapi.com/api/character")
-      .then((response) => response.json())
-      .then((data) => {
-        const uniqueSpecies = [...new Set(data.results.map((character) => character.species))];
-        setSpeciesList(uniqueSpecies);
-      })
-      .catch((error) => {
-        console.error("Error fetching species list:", error);
-      });
-  }, []);
-
+  }, [currentPage, selectedStatus, searchName, selectedGender, selectedSpecies,resetPage]);
   const fetchCharacters = (page, status, name, gender, species) => {
     let url = `https://rickandmortyapi.com/api/character?page=${page}`;
 
@@ -149,7 +136,15 @@ const HomePage = () => {
       console.error('Error al actualizar la lista de favoritos en la base de datos', error);
     }
   };
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      toast.info("Click on some character to see his/her information, you can add them to favourite too", { autoClose: false }); 
+    }, 6000); 
 
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, []); 
   return (
     <div className="home-page-container">
       <form className="filter-form">
@@ -200,7 +195,7 @@ const HomePage = () => {
             </div>
           ))
         ) : (
-          <p className="noresult">No results found for "{searchName}".</p>
+          <p className="noresult">No results found for {searchName}.</p>
         )}
       </div>
       <Modal className="modal" isOpen={modalIsOpen} onRequestClose={closeModal}>
@@ -220,6 +215,7 @@ const HomePage = () => {
           </>
         )}
       </Modal>
+      <ToastContainer/>
       <div className="footer">
         <div className="pagination-container">
           <button

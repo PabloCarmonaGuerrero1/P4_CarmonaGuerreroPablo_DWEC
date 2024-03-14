@@ -16,7 +16,8 @@
     "react-indexed-db-hook": "^1.0.14",
     "react-modal": "^3.16.1",
     "react-paginate": "^8.2.0",
-    "react-router-dom": "^6.21.1"
+    "react-router-dom": "^6.22.3",
+    "react-toastify": "^10.0.4"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "../pages_css/ContactPage.css";
@@ -9,7 +9,7 @@ const ContactPage = () => {
   const [dateValue, setDateValue] = useState('');
   const [quantityValue, setQuantityValue] = useState('');
   const [checkboxValue, setCheckboxValue] = useState(false);
-  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [setFormSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
 
   const handleTextChange = (e) => {
