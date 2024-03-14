@@ -100,12 +100,15 @@ const HomePage = () => {
     setSelectedCharacter(null);
     setModalIsOpen(false);
   };
-
+  const notify = ()=>{
+    toast("Check User to see your profile")
+  }
   const handleFavoriteClick = async (character) => {
     const isFavorite = userFavorites.includes(character.id);
 
     try {
       setUserFavorites((prevFavorites) => {
+        notify()
         const updatedFavorites = isFavorite
           ? prevFavorites.filter((id) => id !== character.id)
           : [...prevFavorites, character.id];
@@ -147,6 +150,7 @@ const HomePage = () => {
   }, []); 
   return (
     <div className="home-page-container">
+      <p>Filter By Character Information</p>
       <form className="filter-form">
         <label>
           Gender:

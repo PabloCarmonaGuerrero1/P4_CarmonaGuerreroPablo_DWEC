@@ -64,6 +64,11 @@
   font-weight: bold;
   
 }
+.home-page-container p{
+  font-size: 2rem;
+  text-align: center;
+  color:rgb(25 255 0);
+}
 .ReactModal__Content--after-open.modal {
   background-color: grey;
   text-align: center;

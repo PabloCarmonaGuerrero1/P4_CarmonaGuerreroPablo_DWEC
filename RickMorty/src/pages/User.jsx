@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import '../pages_css/User.css';
 import { useUser } from '../context/UserContext';
-import { Link } from 'react-router-dom';
 import { DBConfig } from '../DataBase/DBConfig';
+import { toast, ToastContainer } from 'react-toastify';
 
 const User = () => {
   const { user, loginUser } = useUser();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [characterData, setCharacterData] = useState([]);
   const [favoriteCharacters, setFavoriteCharacters] = useState(new Map());
-  const [db, setDb] = useState(null);
+  const [db] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [maxID, setMaxID] = useState(1);
 
@@ -68,7 +68,15 @@ const User = () => {
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      toast.info("You can change your profile photo by clicking on the photo to the left of your username!", { autoClose: false }); 
+    }, 6000); 
 
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, []);
   return (
     <div className="user-container">
       <div className='user_profile'>
@@ -106,7 +114,7 @@ const User = () => {
 
         </Modal>
       </div>
-
+      <ToastContainer/>
       <div className='favorite-characters'>
         <h2>Fav Characters</h2>
         <div>
