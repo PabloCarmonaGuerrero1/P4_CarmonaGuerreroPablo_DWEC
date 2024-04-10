@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import '../pages_css/Login.css';
 import { useUser } from '../context/UserContext.jsx';
 import { useNavigate } from 'react-router-dom';
@@ -9,35 +9,42 @@ const LoginForm = () => {
     email: '',
     password: '',
   });
+  const [errors, setErrors] = useState({
+    email: '',
+    password: '',
+  });
 
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-    e.preventDefault(); 
-  
+    e.preventDefault();
+
     try {
       const userData = JSON.parse(localStorage.getItem(formData.email));
-  
+
       if (!userData || userData.password !== formData.password) {
-        console.error('Credenciales inválidas');
+        setErrors({
+          ...errors,
+          email: '',
+          password: 'Credenciales inválidas',
+        });
         return;
       }
-  
+
       console.log('Usuario autenticado:', userData);
-  
+
       loginUser(userData);
-  
+
       setFormData({
         email: '',
         password: '',
       });
-  
+
       navigate('/HomePage');
     } catch (error) {
       console.error('Error al autenticar el usuario', error);
     }
   };
-  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,6 +52,19 @@ const LoginForm = () => {
       ...prevData,
       [name]: value,
     }));
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: name === 'email' ? validateEmail(value) : '',
+      password: name === 'password' ? validatePassword(value) : '',
+    }));
+  };
+
+  const validateEmail = (email) => {
+    return email ? '' : 'Email Required';
+  };
+
+  const validatePassword = (password) => {
+    return password ? '' : 'Password Required';
   };
 
   return (
@@ -60,6 +80,7 @@ const LoginForm = () => {
             onChange={handleChange}
             required
           />
+          {errors.email && <span className="error-message">{errors.email}</span>}
         </label>
         <br />
         <label>
@@ -71,6 +92,7 @@ const LoginForm = () => {
             onChange={handleChange}
             required
           />
+          {errors.password && <span className="error-message">{errors.password}</span>}
         </label>
         <br />
         <button type="submit">Login</button>
