@@ -26,7 +26,7 @@ const LoginForm = () => {
         setErrors({
           ...errors,
           email: '',
-          password: 'Credenciales inválidas',
+          password: 'Incorrect username or password',
         });
         return;
       }
@@ -58,7 +58,15 @@ const LoginForm = () => {
       password: name === 'password' ? validatePassword(value) : '',
     }));
   };
-
+const handleEmailChange = (e) =>{
+  const value = e.target.value
+  setFormData({ ...formData, email: value });
+  if (!/^\S+@\S+\.\S+$/.test(value)) {
+    setErrors((prevErrors) => ({ ...prevErrors, email: 'Please enter a valid email address.' }));
+  } else {
+    setErrors((prevErrors) => ({ ...prevErrors, email: '' }));
+  }
+}
   const validateEmail = (email) => {
     return email ? '' : 'Email Required';
   };
@@ -77,7 +85,7 @@ const LoginForm = () => {
             type="email"
             name="email"
             value={formData.email}
-            onChange={handleChange}
+            onChange={handleEmailChange}
             required
           />
           {errors.email && <span className="error-message">{errors.email}</span>}

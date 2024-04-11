@@ -13,7 +13,6 @@ const ContactPage = () => {
   const [checkboxValue, setCheckboxValue] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
-  const { user, loginUser } = useUser();
   useEffect(() => {
     const getDate = () => {
       const x = new Date();

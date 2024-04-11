@@ -195,7 +195,10 @@ const HomePage = () => {
         {characterData.length > 0 ? (
           characterData.map((character) => (
             <div key={character.id} className="character-card" onClick={() => openModal(character)}>
-              <img src={character.image} alt="Character Image" />
+              <img src={character.image} alt="Character Image" className="character-image" />
+              {userFavorites.includes(character.id)&&(
+                <img src="src/assets/star.png" alt="favourite" className="favourite-icon"/>
+              )}
             </div>
           ))
         ) : (
