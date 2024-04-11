@@ -80,11 +80,11 @@
   transform: translate(-50%, -50%);
 }
 .home-page-container .favourite-icon{
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   position: relative;
-  top: -200px;
-  left: -50px;
+  top: -82%;
+  left: -15%;
 }
 
 .home-page-container{
