@@ -4,7 +4,7 @@ import Modal from 'react-modal';
 import { toast, ToastContainer } from 'react-toastify';
 import { useUser } from "../context/UserContext";
 import { DBConfig } from "../DataBase/DBConfig";
-
+import CharacterModal from "../components/ModalCharacter";
 const HomePage = () => {
   const { user, loginUser } = useUser();
   const [currentPage, setCurrentPage] = useState(1);
@@ -205,23 +205,14 @@ const HomePage = () => {
           <p className="noresult">No results found for {searchName}.</p>
         )}
       </div>
-      <Modal className="modal" isOpen={modalIsOpen} onRequestClose={closeModal}>
-        {selectedCharacter && (
-          <>
-            <h2>{selectedCharacter.name}</h2>
-            <img src={selectedCharacter.image} alt="Character Image" />
-            <p>Status: {selectedCharacter.status}</p>
-            <p>Species: {selectedCharacter.species}</p>
-            <p>Gender: {selectedCharacter.gender}</p>
-            <p>Origin: {selectedCharacter.origin.name}</p>
-            <p>Location: {selectedCharacter.location.name}</p>
-            <button onClick={() => handleFavoriteClick(selectedCharacter)}>
-              {userFavorites.includes(selectedCharacter.id) ? 'UNFAV' : 'FAV'}
-            </button>
-            <button onClick={closeModal}>Close</button>
-          </>
-        )}
-      </Modal>
+      <CharacterModal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        character={selectedCharacter}
+        onFavoriteClick={handleFavoriteClick}
+        setUserFavorites={setUserFavorites}
+        userFavorites={userFavorites}
+      />
       <ToastContainer/>
       <div className="footer">
         <div className="pagination-container">

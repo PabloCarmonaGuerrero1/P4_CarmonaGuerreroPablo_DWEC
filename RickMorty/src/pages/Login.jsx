@@ -26,7 +26,7 @@ const LoginForm = () => {
         setErrors({
           ...errors,
           email: '',
-          password: 'Incorrect username or password',
+          password: 'Incorrect email or password',
         });
         return;
       }
@@ -86,7 +86,6 @@ const handleEmailChange = (e) =>{
             name="email"
             value={formData.email}
             onChange={handleEmailChange}
-            required
           />
           {errors.email && <span className="error-message">{errors.email}</span>}
         </label>
@@ -98,7 +97,6 @@ const handleEmailChange = (e) =>{
             name="password"
             value={formData.password}
             onChange={handleChange}
-            required
           />
           {errors.password && <span className="error-message">{errors.password}</span>}
         </label>

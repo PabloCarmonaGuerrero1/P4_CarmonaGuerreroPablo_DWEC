@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import '../pages_css/Register.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,12 +22,15 @@ const Register = () => {
     e.preventDefault();
     try {
       if (formData.username.trim() === '') {
+        setErrors((prevErrors) => ({ ...prevErrors, username: 'Please enter a username.' }));
         throw new Error('Please enter a username.');
       }
       if (formData.email.trim() === '') {
+        setErrors((prevErrors) => ({ ...prevErrors, email: 'Please enter an email.' }));
         throw new Error('Please enter an email.');
       }
-      if (formData.password.length<6) {
+      if (formData.password.length < 6) {
+        setErrors((prevErrors) => ({ ...prevErrors, password: 'Please enter a password.' }));
         throw new Error('Please enter a password.');
       }
 
@@ -93,6 +96,10 @@ const Register = () => {
     }
   };
 
+  const handleInputFocus = (fieldName) => {
+    setErrors((prevErrors) => ({ ...prevErrors, [fieldName]: '' }));
+  };
+
   return (
     <div className="register-container">
       <form onSubmit={handleSubmit}>
@@ -104,7 +111,7 @@ const Register = () => {
             name="username"
             value={formData.username}
             onChange={handleNickNameChange}
-            required
+            onFocus={() => handleInputFocus('username')}
           />
           {errors.username && <span className="error">{errors.username}</span>}
         </label>
@@ -116,7 +123,7 @@ const Register = () => {
             name="email"
             value={formData.email}
             onChange={handleEmailChange}
-            required
+            onFocus={() => handleInputFocus('email')}
           />
           {errors.email && <span className="error">{errors.email}</span>}
         </label>
@@ -128,7 +135,7 @@ const Register = () => {
             name="password"
             value={formData.password}
             onChange={handlePasswordChange}
-            required
+            onFocus={() => handleInputFocus('password')}
           />
           {errors.password && <span className="error">{errors.password}</span>}
         </label>

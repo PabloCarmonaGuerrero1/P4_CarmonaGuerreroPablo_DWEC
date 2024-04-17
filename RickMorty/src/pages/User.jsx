@@ -4,16 +4,18 @@ import '../pages_css/User.css';
 import { useUser } from '../context/UserContext';
 import { DBConfig } from '../DataBase/DBConfig';
 import { toast, ToastContainer } from 'react-toastify';
-
+import CharacterModal from '../components/ModalCharacter';
 const User = () => {
   const { user, loginUser } = useUser();
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalIsOpen2, setModalIsOpen2] = useState(false);
   const [characterData, setCharacterData] = useState([]);
   const [favoriteCharacters, setFavoriteCharacters] = useState(new Map());
   const [db] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [maxID, setMaxID] = useState(1);
-
+  const [selectedCharacter, setSelectedCharacter] = useState(null);
+  const [userFavorites, setUserFavorites] = useState(user ? user.favourite || [] : []);
   useEffect(() => {
     const fetchCharacters = async (page) => {
       try {
@@ -64,9 +66,56 @@ const User = () => {
       setModalIsOpen(false);
     }
   };
-
+  const closemodal = () => {
+    setModalIsOpen(false);
+  };
+  const openModal2 = (selectedCharacter) => {
+    characterdata2(selectedCharacter)
+    setModalIsOpen2(true);
+  };
+  
+  
+  const closeModal2 = ()=>{
+    setModalIsOpen2(false);
+  }
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
+  };
+  const handleFavoriteClick = async (character) => {
+    const isFavorite = userFavorites.includes(character.id);
+
+    try {
+      setUserFavorites((prevFavorites) => {
+        notify()
+        const updatedFavorites = isFavorite
+          ? prevFavorites.filter((id) => id !== character.id)
+          : [...prevFavorites, character.id];
+
+        const updatedUser = { ...user, favourite: updatedFavorites };
+        loginUser(updatedUser);
+        localStorage.setItem(user.email, JSON.stringify(updatedUser));
+
+        if (db) {
+          const updateDatabase = async () => {
+            const transaction = db.transaction(DBConfig.objectStoresMeta[0].store, 'readwrite');
+            const store = transaction.objectStore(DBConfig.objectStoresMeta[0].store);
+
+            const existingUser = await store.get(user.email);
+
+            if (existingUser) {
+              existingUser.favourite = updatedFavorites;
+              store.put(existingUser);
+            }
+          };
+
+          updateDatabase();
+        }
+
+        return updatedFavorites;
+      });
+    } catch (error) {
+      console.error('Error al actualizar la lista de favoritos en la base de datos', error);
+    }
   };
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -77,6 +126,23 @@ const User = () => {
       clearTimeout(timeoutId);
     };
   }, []);
+  const characterdata2 = (selectedCharacter) =>{
+    let url = `https://rickandmortyapi.com/api/character/${selectedCharacter}`
+    fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Error en la llamada a la API: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      setSelectedCharacter(data)
+    })
+    .catch((error) => {
+      console.error("Error al llamar a la API:", error);
+      setSelectedCharacter([]);
+    });
+  }
   return (
     <div className="user-container">
       <div className='user_profile'>
@@ -119,11 +185,20 @@ const User = () => {
         <h2>Fav Characters</h2>
         <div>
           {Array.from(favoriteCharacters.values()).map((characterId) => (
-            <div key={characterId}>
+            <div key={characterId} onClick={() => openModal2(characterId)}>
               <img src={`https://rickandmortyapi.com/api/character/avatar/${characterId}.jpeg`} alt="Favourite" />
             </div>
           ))}
         </div>
+        <CharacterModal
+        isOpen={modalIsOpen2}
+        onRequestClose={closeModal2}
+        character={selectedCharacter}
+        onFavoriteClick={handleFavoriteClick}
+        setUserFavorites={setUserFavorites}
+        userFavorites={userFavorites}
+      />
+
       </div>
     </div>
   );
