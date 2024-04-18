@@ -128,6 +128,15 @@ const User = () => {
       clearTimeout(timeoutId);
     };
   }, []);
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      toast.info("You can change your username or password by clicking on the image located to the right of your username.", { autoClose: false }); 
+    }, 6000); 
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, []);
   const characterdata2 = (selectedCharacter) =>{
     let url = `https://rickandmortyapi.com/api/character/${selectedCharacter}`
     fetch(url)

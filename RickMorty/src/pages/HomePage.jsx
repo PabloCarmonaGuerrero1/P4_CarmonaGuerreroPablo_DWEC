@@ -49,8 +49,7 @@ const HomePage = () => {
     };
   
     fetchSpecies();
-  }, []);
-  
+  }, []);  
   const fetchCharacters = (page, status, name, gender, species) => {
     let url = `https://rickandmortyapi.com/api/character?page=${page}`;
 
