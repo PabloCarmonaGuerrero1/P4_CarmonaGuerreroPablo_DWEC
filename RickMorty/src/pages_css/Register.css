@@ -10,7 +10,9 @@
     margin: 0%;
  
   }
-  
+  .register-container span{
+    color:red
+  }
   .register-container form {
     background-color: #252121;
     padding: 2rem;

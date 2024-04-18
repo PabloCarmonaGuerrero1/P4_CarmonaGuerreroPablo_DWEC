@@ -16,6 +16,12 @@ const User = () => {
   const [maxID, setMaxID] = useState(1);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [userFavorites, setUserFavorites] = useState(user ? user.favourite || [] : []);
+  const [showForm, setShowForm] = useState(false);
+  const [formData, setFormData] = useState({
+    name: user ? user.name : '',
+    password: user ? user.password : '',
+  });
+  const [formErrors, setFormErrors] = useState({})
   useEffect(() => {
     const fetchCharacters = async (page) => {
       try {
@@ -139,6 +145,59 @@ const User = () => {
       setSelectedCharacter([]);
     });
   }
+  const handleChangeUser=()=>{
+    setShowForm(!showForm);
+  }
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+    setFormErrors({
+      ...formErrors,
+      [e.target.name]: '',
+    });
+  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const errors = {};
+    if (!formData.name.trim()) {
+      errors.name = 'Name is required';
+    }
+    if (formData.password.length < 6) {
+      errors.password = 'Password must be at least 6 characters long';
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+    } else {
+      try {
+        const updatedUser = { ...user, ...formData };
+        loginUser(updatedUser);
+        localStorage.setItem(user.email, JSON.stringify(updatedUser));
+        console.log(updatedUser)
+        if (db) {
+          const transaction = db.transaction(DBConfig.objectStoresMeta[0].store, 'readwrite');
+          const store = transaction.objectStore(DBConfig.objectStoresMeta[0].store);
+          
+          const existingUser = await store.get(user.email);
+
+          if (existingUser) {
+            existingUser.name = formData.name;
+            existingUser.password = formData.password;
+            await store.put(existingUser);
+          }
+        }
+        
+        toast.success('User data updated successfully');
+      } catch (error) {
+        console.error('Error updating user data:', error);
+        toast.error('Failed to update user data');
+      }
+    }
+  };
+  
   return (
     <div className="user-container">
       <div className='user_profile'>
@@ -150,6 +209,30 @@ const User = () => {
               onClick={() => setModalIsOpen(true)} className='profile'
             />
             <p className='name_profile'>{user.name}</p>
+            <img src='src/assets/change-management.png' className='change-user' onClick={handleChangeUser}/>
+            {showForm && (
+              <form onSubmit={handleSubmit} className='form-update'>
+                <p className='p-form'>Username</p>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Name"
+                />
+                {formErrors.name && <p className="error">{formErrors.name}</p>}
+                <p className='p-form'>Password</p>
+                <input
+                  type="text"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Password"
+                />
+                 {formErrors.password && <p className="error">{formErrors.password}</p>}
+                <button type="submit">UPDATE</button>
+              </form>
+            )}
           </>
         )}
         <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>

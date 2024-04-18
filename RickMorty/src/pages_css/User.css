@@ -98,3 +98,34 @@
   margin-top: 20px; 
 }
 
+.user-container .change-user{
+  width: 40px;
+  height: 40px;
+  margin-left: 3vh;
+}
+.user-container .form-update{
+  margin-left: 5vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+.user-container .form-update .p-form{
+  color: rgb(117, 255, 26);
+  font-size: 1.5rem;
+}
+.user-container .form-update input{
+  border-radius: 25px;
+  text-align: center;
+}
+.user-container .form-update button{
+  margin-top: 2vh;
+  color: green;
+  background-color: black;
+  border-radius: 25px;
+  width: 90px;
+  height: 40px;
+}
+.user-container .error{
+  color:red
+}
