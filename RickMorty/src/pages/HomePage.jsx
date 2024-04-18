@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import '../pages_css/HomePage.css';
-import Modal from 'react-modal';
 import { toast, ToastContainer } from 'react-toastify';
 import { useUser } from "../context/UserContext";
 import { DBConfig } from "../DataBase/DBConfig";
@@ -18,7 +17,7 @@ const HomePage = () => {
   const [db] = useState(null);
   const [resetPage, setResetPage] = useState(false);
   const [selectedGender, setSelectedGender] = useState("all");
-  const [speciesList] = useState([]);
+  const [speciesList,setSpeciesList] = useState([]);
   const [selectedSpecies, setSelectedSpecies] = useState("all");
 
   useEffect(() => {
@@ -28,6 +27,30 @@ const HomePage = () => {
     }
     fetchCharacters(currentPage, selectedStatus, searchName, selectedGender, selectedSpecies);
   }, [currentPage, selectedStatus, searchName, selectedGender, selectedSpecies,resetPage]);
+  useEffect(() => {
+    const fetchSpecies = async () => {
+      try {
+        let allSpecies = [];
+        let nextPage = "https://rickandmortyapi.com/api/character";
+  
+        while (nextPage) {
+          const response = await fetch(nextPage);
+          const data = await response.json();
+          const species = data.results.map((character) => character.species);
+          allSpecies = [...allSpecies, ...species];
+          nextPage = data.info.next;
+        }
+  
+        const uniqueSpecies = [...new Set(allSpecies)];
+        setSpeciesList(uniqueSpecies);
+      } catch (error) {
+        console.error("Error fetching species list:", error);
+      }
+    };
+  
+    fetchSpecies();
+  }, []);
+  
   const fetchCharacters = (page, status, name, gender, species) => {
     let url = `https://rickandmortyapi.com/api/character?page=${page}`;
 

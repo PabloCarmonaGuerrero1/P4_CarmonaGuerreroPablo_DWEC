@@ -66,9 +66,6 @@ const User = () => {
       setModalIsOpen(false);
     }
   };
-  const closemodal = () => {
-    setModalIsOpen(false);
-  };
   const openModal2 = (selectedCharacter) => {
     characterdata2(selectedCharacter)
     setModalIsOpen2(true);
@@ -86,7 +83,6 @@ const User = () => {
 
     try {
       setUserFavorites((prevFavorites) => {
-        notify()
         const updatedFavorites = isFavorite
           ? prevFavorites.filter((id) => id !== character.id)
           : [...prevFavorites, character.id];
