@@ -170,6 +170,19 @@ const HomePage = () => {
       clearTimeout(timeoutId);
     };
   }, []); 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  };
+
+  const scrollToBottom = () => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "smooth"
+    });
+  };
   return (
     <div className="home-page-container">
       <p>Filter By Character Information</p>
@@ -252,6 +265,10 @@ const HomePage = () => {
             Next
           </button>
         </div>
+      </div>
+      <div className="scroll-buttons">
+        <button className="scroll-button" onClick={scrollToTop}>Go to Top</button>
+        <button className="scroll-button" onClick={scrollToBottom}>Go to Bottom</button>
       </div>
     </div>
   );

@@ -25,8 +25,8 @@ const LoginForm = () => {
       if (!userData || userData.password !== formData.password) {
         setErrors({
           ...errors,
-          email: '',
-          password: 'Incorrect email or password',
+          email: 'Incorrect email',
+          password: 'Incorrect password',
         });
         return;
       }

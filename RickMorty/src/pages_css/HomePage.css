@@ -93,3 +93,25 @@
   background-position: center ;
   background-repeat: no-repeat;
 }
+.home-page-container .scroll-buttons{
+  position: fixed;
+  top: 50%; 
+  right: 20px; 
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000; 
+  margin-bottom: 10px;
+}
+.home-page-container .scroll-buttons button{
+  margin-bottom: 10px; 
+  padding: 10px;
+  background-color: #007bff; 
+  color: aliceblue;
+  border: none;
+  border-radius: 5px;
+  
+}
+.home-page-container .scroll-buttons button:hover {
+  background-color: #0056b3; 
+}
